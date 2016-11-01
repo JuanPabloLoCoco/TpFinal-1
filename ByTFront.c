@@ -4,6 +4,7 @@
 
 int main ()
 {
+    int a;
 	printf("Probando...");
 	return 0;
 }
