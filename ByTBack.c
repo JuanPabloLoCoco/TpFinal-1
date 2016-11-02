@@ -7,10 +7,10 @@
 	/*con este procedimiento se hace mas eficiente la busqueda de movimientos*/
 
 typedef struct{
-    int fi;
-    int ci;
-    int ff;
-    int cf;
+    int F1;
+    int C1;
+    int F2;
+    int C2;
 }movimiento; /*estructura con posiciones iniciales y finales de movimientos*/
 
 
@@ -118,12 +118,12 @@ int contarsaltos(char **matriz,int x,int y, int desx, int desy, int dim, int *po
  return botones;
 }
 
-asignacionTabla(movimientos tabla[],int pos,int fo,int co,int ff,int cf)
+asignacionTabla(movimientos tabla[],int pos,int F1,int C1,int F2,int C2)
 {
-  tabla[pos].fi=i;
-  tabla[pos].ci=j;
-  tabla[pos].ff=ff;
-  tabla[pos].cf=cf;
+  tabla[pos].F1=i;
+  tabla[pos].C1=j;
+  tabla[pos].F2=F2;
+  tabla[pos].C2=C2;
 }
 
 void MovPc(char **matriz,int dim)
@@ -136,7 +136,7 @@ void MovPc(char **matriz,int dim)
   else
     opciones=Maximo(matriz, dim,tabla);
   elegida=aleatorio(0,opciones-1);
-  hacermovimiento(tabla[elegida].fi,tabla[elegida].ci,tabla[elegida].ff,tabla[elegida].cf);
+  hacermovimiento(tabla[elegida].F1,tabla[elegida].C1,tabla[elegida].F2,tabla[elegida].C2);
   return;
 }
 int HayJugada(int N, char board[N][N])
