@@ -1,4 +1,10 @@
-
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<ctype.h>
+#include "getnum.c"
+#define BORRA_BUFFER while (getchar() != '\n')
+#define MAX_DIM 80
 #define MovValido(i,j,x,y,dim) (((i+(x))<0) || ((i+(y))>dim) || ((j+(y))<0) || ((j+(y))>dim) || ((x==0) && (y!=1))?1:0;
 #define bloque 10
 
@@ -148,7 +154,7 @@ void MovPc(char **matriz,int dim)
   hacermovimiento(tabla[elegida].F1,tabla[elegida].C1,tabla[elegida].F2,tabla[elegida].C2);
   return;
 }
-int HayJugada(int N, char board[N][N])
+int HayJugada(int N, char board[N][N])//n=dim? board=matriz
 {
     int F2, C2;
     int F1;
@@ -160,12 +166,12 @@ int HayJugada(int N, char board[N][N])
    			 if (board[F1][C1] != '0')
    			 {
    			 //Existe Movimiento Horizontal
-   				 if (C1 < N-1   	 &&   	 board[F1][C1] == board[F1][C1+1])
+   				 if (C1 < N-1  && board[F1][C1] == board[F1][C1+1])
    					 return 1;
-   				 else if (board[F1][C1+1] == '0'    &&    C1 < N-2)
+   				 else if (board[F1][C1+1] == '0' &&  C1 < N-2)
    				 {
    					 C2 = C1+2;
-   					 while (board[F1][C2] == '0'   &&   C2 < N-1)
+   					 while (board[F1][C2] == '0' && C2 < N-1)
    						 C2++;
    					 if (board[F1][C1] == board[F1][C2])
    						 return 1;
@@ -173,9 +179,9 @@ int HayJugada(int N, char board[N][N])
 
 
    		 //Existe Movimiento Vertical
-   				 if (F1 < N-1   	 &&    board[F1][C1] == board[F1+1][C1])
+   				 if (F1 < N-1  &&  board[F1][C1] == board[F1+1][C1])
    					 return 2;
-   				 else if (board[F1+1][C1] == '0'    &&    F1 < N-2)
+   				 else if (board[F1+1][C1] == '0'  &&  F1 < N-2)
    				 {
    					 F2 = F1+2;
    					 while (board[F2][C1] == '0'   &&   F2 < N-1)
@@ -186,13 +192,13 @@ int HayJugada(int N, char board[N][N])
 
 
    		 //Existe Movimiento Diagonal a la Derecha
-   				 if (F1 < N-1   	 &&   	 C1 < N-1   	 &&   	 board[F1][C1] == board[F1+1][C1+1])
+   				 if (F1 < N-1  && C1 < N-1  && board[F1][C1] == board[F1+1][C1+1])
    					 return 3;
-   				 else if (F1 < N-2   	 &&   	 C1 < N-2   	 &&   	 board[F1+1][C1+1] == '0')
+   				 else if (F1 < N-2  && C1 < N-2 && board[F1+1][C1+1] == '0')
    				 {
    					 F2 = F1+2;
    					 C2 = C1+2;
-   					 while (board[f][c] == '0'   &&   F2 < N-1   &&   C2 < N-1)
+   					 while (board[f][c] == '0' && F2 < N-1 && C2 < N-1)
    					 {
    						 F2++;
    						 C2++;
@@ -203,13 +209,13 @@ int HayJugada(int N, char board[N][N])
 
 
    		 //Existe Movimiento Diagonal a la Izquierda
-   				 if (F1 < N-1   	 &&   	 C1 > 0         &&    	 board[F1][C1] == board[F1-1][C1-1])
+   				 if (F1 < N-1  && C1 > 0  && board[F1][C1] == board[F1-1][C1-1])
    					 return 4;
-   				 else if (F1 < N-2   	 &&   	 C1 > 1         &&    	 board[F1+1][C1-1] == '0')
+   				 else if (F1 < N-2  && C1 > 1 && board[F1+1][C1-1] == '0')
    				 {
    					 F2 = F1+2;
    					C2 = C1-2;
-   					 while (board[F2][C2] == '0'   &&   F2 < N-1   &&   C2 > 0)
+   					 while (board[F2][C2] == '0' && F2 < N-1   &&   C2 > 0)
    					 {
    						F2++;
    						C2--;
