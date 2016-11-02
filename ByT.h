@@ -1,5 +1,6 @@
 /*aca van los prototipos de todas las funciones del Back*/
-
+#include<stdio.h>
+#include<stdlib.h>
 //genera numero aleatorio entre izq y der
 int aleatorio(int izq, int der);
 
