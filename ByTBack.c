@@ -11,8 +11,17 @@ typedef struct{
     int C1;
     int F2;
     int C2;
-}movimiento; /*estructura con posiciones iniciales y finales de movimientos*/
+}tMovimiento; /*estructura con posiciones iniciales y finales de movimientos*/
 
+typedef struct{
+    int turno;
+    int ptsjug1;
+    int ptsjug2;
+    char matriz;
+    int dim;
+    tMovimiento movimiento;
+
+}tPartida;
 
 int aleatorio(int izq, int der)
 {
@@ -22,7 +31,7 @@ int aleatorio(int izq, int der)
   return num;
 }
 
-int Minimo (char **matriz, int dim,movimiento *tabla)
+int Minimo (char **matriz, int dim,tMovimiento *tabla)
 {
   int i,j,t,s,cont=0;
   for (i=0,i<dim, i++)
@@ -38,7 +47,7 @@ int Minimo (char **matriz, int dim,movimiento *tabla)
           {
             if ((cont%bloque)==0)
             {
-              tabla=realloc(tabla,(cont+bloque)*sizeof (movimiento));
+              tabla=realloc(tabla,(cont+bloque)*sizeof (tMovimiento));
             }
             asignacionTabla(tabla,cont,i,j,i+t*salto,j+s*salto,)
           }
@@ -46,7 +55,7 @@ int Minimo (char **matriz, int dim,movimiento *tabla)
       }
     }
   }
-  tabla=realloc(tabla,cont*sizeof(movimiento);
+  tabla=realloc(tabla,cont*sizeof(tMovimiento);
   return cont;
 }
 
@@ -61,7 +70,7 @@ int Buscarmismo(char **matriz,int i, int j, int t, int s, int dim)
   return 0;
 }
 
-int Maximo (char **matriz, int dim,movimiento *tabla)
+int Maximo (char **matriz, int dim,tMovimiento *tabla)
 {
   int i,j,t,s,max=1,contmax=0,cont=0,posfx,posfy ; /*contmax es el contado del listado de maximos*/
                                       /*Cont, cuenta los saltos*/
@@ -81,7 +90,7 @@ int Maximo (char **matriz, int dim,movimiento *tabla)
             {
               max=cont;
               contmax=0;
-              tabla=realloc(tabla,(contmax+bloque)*sizeof (movimiento)); /*consultar que tan bien esta esto*/
+              tabla=realloc(tabla,(contmax+bloque)*sizeof (tMovimiento)); /*consultar que tan bien esta esto*/
               asignacionTabla(tabla,0,i,j,posfx,posfy));
               contmax++;
             }
@@ -89,7 +98,7 @@ int Maximo (char **matriz, int dim,movimiento *tabla)
             {
               if ((contmax%bloque)==0)
               {
-                tabla=realloc(tabla,(contmax+bloque)*sizeof(movimiento));
+                tabla=realloc(tabla,(contmax+bloque)*sizeof(tMovimiento));
               }
               asignacionTabla(tabla,contmax,i,j,posfx,posfy);
               contmax++;
@@ -99,7 +108,7 @@ int Maximo (char **matriz, int dim,movimiento *tabla)
       }
     }
   }
-  tabla=realloc(tabla,(contmax)*sizeof(movimiento));
+  tabla=realloc(tabla,(contmax)*sizeof(tMovimiento));
   return contmax;
 }
 
@@ -118,7 +127,7 @@ int contarsaltos(char **matriz,int x,int y, int desx, int desy, int dim, int *po
  return botones;
 }
 
-asignacionTabla(movimientos tabla[],int pos,int F1,int C1,int F2,int C2)
+asignacionTabla(movimientos tabla[],int pos,int F1,int C1,int F2,int C2)//funcion?
 {
   tabla[pos].F1=i;
   tabla[pos].C1=j;
