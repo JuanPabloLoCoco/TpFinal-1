@@ -14,7 +14,7 @@ typedef struct{
     int turno;
     int ptsjug1;
     int ptsjug2;
-    char tablero[30][30];
+    char **tablero;
     int jugadores;
     int dim;
 }tPartida;
@@ -24,7 +24,7 @@ int main(){
     tPartida partida;
     partida.jugadores=2;partida.turno=2;
     partida.dim=5;
-    char tablero[5][5]={{'A','B','C','D','E'},{' ',' ','D','E',' '},{' ','D','E','B',' '},{'A','A','B','D',' '},{'A','D',' ',' ',' '}};
+
     GuardarPartida(nombre,&partida);
     return 0;
 
