@@ -19,7 +19,7 @@ typedef struct{
 }tPartida;
 
 int main(){
-    char * nombre = "hol";
+    char * nombre = "hola";
     tPartida partida;
     partida.jugadores=2;
     partida.turno=2;
