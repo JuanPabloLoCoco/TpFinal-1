@@ -14,7 +14,7 @@ typedef struct{
     int jugadores;
     int ptsjug1;
     int ptsjug2;
-    char tablero[80][80];
+    int **tablero;//falta el malloc y definirla para poder probarla
     int dim;
 }tPartida;
 
@@ -24,7 +24,7 @@ int main(){
     partida.jugadores=2;
     partida.turno=2;
     partida.dim=5;
-    char tablero[5][5]={{'A','B','C','D','E'},{' ',' ','D','E',' '},{' ','D','E','B',' '},{'A','A','B','D',' '},{'A','D',' ',' ',' '}};
+
     CargarPartida(nombre,&partida);
     return 0;
 
