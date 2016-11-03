@@ -12,10 +12,10 @@
 
 typedef struct{
     int turno;
-    int jugadores;
     int ptsjug1;
     int ptsjug2;
     char tablero[30][30];
+    int jugadores;
     int dim;
 }tPartida;
 
