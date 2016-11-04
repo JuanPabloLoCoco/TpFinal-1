@@ -22,9 +22,10 @@ typedef struct{
 int main(){
     char * nombre = "hola";
     tPartida partida;
-    partida.jugadores=2;partida.turno=2;
+    partida.jugadores=2;
+    partida.turno=2;
     partida.dim=5;
-
+    partida.tablero=
     GuardarPartida(nombre,&partida);
     return 0;
 

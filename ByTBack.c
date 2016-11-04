@@ -25,7 +25,6 @@ typedef struct{
     int ptsjug2;
     char matriz;
     int dim;
-    tMovimiento movimiento;
 
 }tPartida;
 
@@ -68,7 +67,9 @@ int Minimo (char **matriz, int dim,tMovimiento *tabla)
 int Buscarmismo(char **matriz,int i, int j, int t, int s, int dim)
 {
   int salto;
-  for (salto=1, MovValido(i,j,t*salto,s*salto,dim) && (matriz[i+t*salto][j+s*salto]=="" || matriz[i][j]==matriz[i+t*salto][j+s*salto]),salto++) /*cuenta la cantidad de saltos en una posicion hasta encontrar indebido*/
+  for (salto=1, MovValido(i,j,t*salto,s*salto,dim) && (matriz[i+t*salto][j+s*salto]==""
+        || matriz[i][j]==matriz[i+t*salto][j+s*salto]),salto++)
+            /*cuenta la cantidad de saltos en una posicion hasta encontrar indebido*/
   {
     if matriz[i][j]==matriz[i+t*salto][j+s*salto];
       return salto;
@@ -230,7 +231,7 @@ int HayJugada(int N, char board[N][N])//n=dim? board=matriz
 }
 
 
-int InvalidMove(int N, char tablero[N][N], int F1, int C1, int F1, int C2)
+int InvalidMove(int N, char tablero[N][N], int F1, int C1, int F2, int C2)
 {
     //ERROR 1   	 Posicion inicial invalida
     //ERROR 2   	 Posicion Final invalida
@@ -260,8 +261,8 @@ int InvalidMove(int N, char tablero[N][N], int F1, int C1, int F1, int C2)
    	 //Se queda fijo
    	 if (F1 == F2 && C1 == C2)
    		 return 4;
-   	 double my = (float)(C2-C1);
-   	 double mx = (float)(F2-F1);
+   	 double my = (double)(C2-C1);
+   	 double mx = (double)(F2-F1);
    	 //No es diagonal
    	 if (mx != 0     &&    	 my != 0     &&    	 abs(my/mx) != 1)
    		 return 5;
