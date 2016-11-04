@@ -160,3 +160,20 @@ void quit(){
         }
     }
 }
+
+void ImprimirTablero(int N, char** board)
+{
+    printf("\n\n\n");
+    for (int i = 0; i < N; ++i)
+    {
+        for (int j = 0; j < N; ++j)
+        {
+            if (board[i][j] == '0')
+                printf("\t%c", ' ');
+            else
+                printf("\t%c", board[i][j]);
+        }
+        printf("\n\n\n");
+    }
+    printf("\n\n\n");
+}
