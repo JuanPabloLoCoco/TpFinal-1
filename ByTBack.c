@@ -21,11 +21,10 @@ typedef struct{
 
 typedef struct{
     int turno;
-    int ptsjug1;
-    int ptsjug2;
-    char matriz;
     int dim;
-
+    int score1;
+    int score2;
+    char **tablero;
 }tPartida;
 
 int aleatorio(int izq, int der)
@@ -81,7 +80,7 @@ int Maximo (char **matriz, int dim,tMovimiento *tabla)
 {
   int i,j,t,s,max=1,contmax=0,cont=0,posfx,posfy ; /*contmax es el contado del listado de maximos*/
                                       /*Cont, cuenta los saltos*/
-	                                      /*max, se�ala la cantidad maxima de botones. Inicializa en 1, porque seguro que hay movimiento*/
+	                                      /*max, señala la cantidad maxima de botones. Inicializa en 1, porque seguro que hay movimiento*/
   for (i=0,i<dim, i++)
   {
     for (j=0, j<dim, j++)
@@ -281,6 +280,61 @@ int InvalidMove(int N, char tablero[N][N], int F1, int C1, int F2, int C2)
     return 0;
 }
 
+char** crearMatriz(int n)
+{
+    int flag=1;
+    char** tablero=NULL;
+
+    //Crear tantos arreglos como dimension
+    tablero=malloc(sizeof(*tablero)*n);
+    if(tablero!=NULL)
+    {
+        for (int i = 0; i < n  &&  flag; ++i)
+        {
+            //Para cada elemento del arreglo, darle otro arreglo de la misma dimension
+            tablero[i]=malloc(sizeof(**tablero)*n);
+
+            //Si no hay memoria, cancelar todo el proceso.
+            if (tablero[i] == NULL)
+            {
+                flag=0;
+                for (int j = 0; j >= 0; j--)
+                    free(tablero[j]);
+                free(tablero);
+            }
+        }
+    }
+    return tablero;
+}
+
+void GuardarPartida(const char* filename, int jugadores, tPartida* partida)
+{
+    //Sumo 3 para asegurarme de que entren el "./" y el 0
+    char ubicacion[strlen(filename)+3];
+    snprintf(ubicacion, sizeof(ubicacion), "./%s", filename);
+    FILE* archivo = fopen(ubicacion, "wb");
+
+    // 0 = 2 players
+    // 1 = CPU
+    fwrite(&jugadores, sizeof(jugadores), 1, archivo);
+
+    // 1 = Le toca a P1
+    // 2 = Le toca a P2 o CPU
+    fwrite(&partida->turno, sizeof(partida->turno), 1, archivo);
+
+    // Dimension del tablero
+    fwrite(&partida->dim, sizeof(partida->dim), 1, archivo);
+
+    // Tablero
+    for (int i = 0; i < (partida->dim); ++i)
+     for (int j = 0; j < (partida->dim); ++j)
+     {
+         fwrite((&partida->tablero[i][j]), sizeof(char), 1, archivo);
+     }
+
+    fclose(archivo);
+}
+
 
 int ExisteArchivo(const char* filename)
 {
@@ -290,68 +344,31 @@ int ExisteArchivo(const char* filename)
 
     if ((archivo = fopen(ubicacion, "rb")) != NULL)
     {
-   	 fclose(archivo);
-   	 return 1;
+     fclose(archivo);
+     return 1;
     }
     return 0;
 }
 
-
-void GuardarPartida(const char* filename, int jugadores, int turno, int dim, char tablero[dim][dim])
-{
-    //Sumo 3 para asegurarme de que entren el "./" y el 0
-    char ubicacion[strlen(filename)+3];
-    snprintf(ubicacion, sizeof(ubicacion), "./%s", filename);
-    FILE* archivo = fopen(ubicacion, "wb");
-
-
-    // 0 = 2 players
-    // 1 = CPU
-    fwrite(&jugadores, sizeof(int), 1, archivo);
-
-
-    // 1 = Le toca a P1
-    // 2 = Le toca a P2 o CPU
-    fwrite(&turno, sizeof(turno), 1, archivo);
-
-
-    // Dimension del tablero
-    fwrite(&dim, sizeof(dim), 1, archivo);
-
-
-    // Tablero
-    for (int i = 0; i < dim; ++i)
-   	 for (int j = 0; j < dim; ++j)
-   	 {
-   		 fwrite(&(tablero[i][j]), sizeof(char), 1, archivo);
-   	 }
-
-    fclose(archivo);
-}
-
-
-int CargarPartida(char* filename, int jugadores, int turno, int dim, char tablero[dim][dim])
+int CargarPartida(char* filename, int jugadores, tPartida *partida)
 {
     if (!(ExisteArchivo(filename)))
-    {
-   	 return 0;
-    }
+        return 0;
+
     char ubicacion[strlen(filename)+3];
     snprintf(ubicacion, sizeof(ubicacion), "./%s", filename);
     FILE* archivo = fopen(ubicacion, "rb");
 
+    fread(&jugadores, sizeof(jugadores), 1, archivo);
+    fread(&partida->turno, sizeof(partida->turno), 1, archivo);
+    fread(&partida->dim, sizeof(partida->dim), 1, archivo);
 
-    fread(&jugadores, sizeof(int), 1, archivo);
-    fread(&turno, sizeof(int), 1, archivo);
-    fread(&dim, sizeof(int), 1, archivo);
+//Por si cargo un tablero de otro tamaño, ajustarlo
+    partida->tablero=crearMatriz(partida->dim);
+    for (int i = 0; i < (partida->dim); ++i)
+     for (int j = 0; j < (partida->dim); ++j)
+        partida->tablero[i][j]=fgetc(archivo);
 
-    for (int i = 0; i < dim; ++i)
-    {
-   	 for (int j = 0; j < dim; ++j)
-   	 {
-   		 fread(&(tablero[i][j]), sizeof(char), 1, archivo);
-   	 }
-    }
     fclose(archivo);
     return 1;
 }
